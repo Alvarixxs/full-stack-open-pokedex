@@ -21,6 +21,15 @@ jobs:
 
       - run: npm run eslint
       - run: npm run build
+
+      - name: Test Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: Test Failed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
       - run: npm test
 
       - name: Install Playwright Browsers
@@ -31,6 +40,14 @@ jobs:
       - name: Trigger deployment
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ''), '#skip')}}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+
+      - name: deploy Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+          severity: info
+          details: Test Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   tag_release:
     needs: [ simple_deployment_pipeline ]
@@ -50,6 +67,7 @@ jobs:
           WITH_V: false
           DEFAULT_BUMP: patch
 
+
   a_test_job:
     runs-on: ubuntu-20.04
     steps:
@@ -68,11 +86,3 @@ jobs:
         run: echo "$COMMIT_MESSAGES"
       - name: test skip
         run: echo ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ''), '#skip')}}
-
-  discord:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Discord Webhook Notify
-        uses: rjstone/discord-webhook-notify@v1.0.4
-        env:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
