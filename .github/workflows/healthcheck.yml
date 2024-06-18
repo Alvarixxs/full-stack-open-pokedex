@@ -1,0 +1,16 @@
+name: Hello World!
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  simple_health_check:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check the deployed service URL for health
+        uses: jtalk/url-health-check-action@v4
+        with:
+          # Check the following URLs one by one sequentially
+          url: https://full-stack-open-pokedex-ec2z.onrender.com/health
