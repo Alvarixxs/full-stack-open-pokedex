@@ -68,3 +68,11 @@ jobs:
         run: echo "$COMMIT_MESSAGES"
       - name: test skip
         run: echo ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ''), '#skip')}}
+
+  discord:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Discord Webhook Notify
+        uses: rjstone/discord-webhook-notify@v1.0.4
+        env:
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
