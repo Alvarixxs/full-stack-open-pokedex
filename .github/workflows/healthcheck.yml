@@ -2,7 +2,7 @@ name: Hello World!
 
 on:
   schedule:
-    - cron: '5 * * * *'
+    - cron: '5 1 1 1 1'
 
 jobs:
   simple_health_check:
