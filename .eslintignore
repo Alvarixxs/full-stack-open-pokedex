@@ -4,3 +4,4 @@ dist/
 .idea
 app.js
 .eslintrc.js
+playwright.config.js
