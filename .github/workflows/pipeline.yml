@@ -22,8 +22,8 @@ jobs:
       - run: npm run eslint
       - run: npm run build
 
-      - name: Test Failure
-        uses: rjstone/discord-webhook-notify@v1
+      - name: Discord Webhook Notify
+        uses: rjstone/discord-webhook-notify@v1.0.4
         if: failure()
         with:
           severity: error
@@ -41,8 +41,8 @@ jobs:
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ''), '#skip')}}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
 
-      - name: deploy Success
-        uses: rjstone/discord-webhook-notify@v1
+      - name: Discord Webhook Notify
+        uses: rjstone/discord-webhook-notify@v1.0.4
         if: success()
         with:
           severity: info
