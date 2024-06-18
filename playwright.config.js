@@ -23,14 +23,15 @@ module.exports = defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    baseURL: 'http://localhost:3000',
-  },
+
   webServer: {
     command: 'npm run start',
-    url: 'http://127.0.0.1:3000/',
+    url: 'http://127.0.0.1:8080',
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
+  },
+  use: {
+    baseURL: 'http://localhost:8080/',
   },
   /* Configure projects for major browsers */
   projects: [
